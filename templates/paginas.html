@@ -1,0 +1,55 @@
+
+{% extends "cabecalho.html" %}
+{% block conteudo %}
+
+<h2 >Receitas</h2>
+<div class="card-deck text-center">
+                {% for receita in dados %}
+            {% for id in receita['receitas'] %}
+                <div class="card bg-dark text-warning border-warning" style="display: inline-grid;padding: 0.2%;">
+
+                    <h4 class="card-header border-warning" style="text-align: center">
+                       ID[{{id}}] {{ receita['receitas'][id]['nome'] }}
+                    </h4>
+
+                    <div class="card-body text-dark border-warning">
+                        {% set img_name=receita['receitas'][id]['nome'] ~ '_' ~ id ~ '.jpg'%}
+                        <figure>
+                            <a href="{{ url_for('receita' , id=id) }}" class="stretched-link">
+                                <img class="card-img-top" name="imagem"
+                                     src="{{ url_for('imagem', nome_arquivo=img_name) }}"
+                                     alt="Foto de comido ">
+                            </a>
+                        </figure>
+
+                        <div class='card-text'>
+                            <ul>
+                                {% for ingrediente in receita['ingredientes'][id] %}
+                                    <li>
+                                        <p class="card-text">{{ ingrediente[1] }} : {{ ingrediente[0] }} </p>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% if 'nome_usuario' in session and session['nome_usuario'] != False %}
+                                <a href="{{ url_for('editar_receita' , id=id) }}">Editar </a>
+                                <a href="{{ url_for('deletar' , id=id) }}"> Deletar</a>
+                        {%endif%}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endfor %}
+ </div>
+
+    <div class="mx-tool btn-toolbar " role="toolbar" aria-label="Toolbar with button groups">
+        <div class="btn-group mr-2" role="group" aria-label="First group">
+            {% for num in range(num_paginas) %}
+                <a href="{{url_for('paginacao',pag=num+1)}}">
+                    <button type="button" class="btn btn-secondary"
+                    >{{num+1}}</button>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

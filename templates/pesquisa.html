@@ -1,0 +1,40 @@
+{% extends "cabecalho.html" %}
+{% block conteudo %}
+    <h2>Pesquisa</h2>
+    <form action="{{ url_for('buscador') }}" method="post">
+        <input type="search" name="buscar" placeholder="Exemplo: Ovo, Trigo"><input type="submit" value="Buscar">
+        <p></p>
+        <label>Contêm <input type="radio" name="radio_pesquisa" value=0 CHECKED></label>
+        <p></p>
+        <label >Somente <input type="radio" name="radio_pesquisa" value=1 ></label>
+    </form>
+    <section>
+        <h2>Receitas</h2>
+        {% for ID in resultado %}
+            {% for receita in dados %}
+                {% if receita['receitas'].get(ID) %}
+                    <div class="card bg-dark text-warning border-warning" style="display: inline-grid;padding: 0.2%;">
+                        <h4 class="card-header border-warning" style="text-align: center">{{ receita['receitas'][ID]['nome'] }}</h4>
+                        <div class="card-body text-dark border-warning">
+                            {% set name=receita['receitas'][ID]['nome'] ~ '_' ~ ID ~ '.jpg'%}
+                            <figure>
+                                <img class="card-img-top" name="imagem"
+                                     src="{{ url_for('imagem', nome_arquivo=name) }}"
+                                     alt="Foto de comido ">
+                            </figure>
+                            <div class='card-text'>
+                                <ul>
+                                    {% for ingrediente in receita['ingredientes'][ID] %}
+                                        <li>
+                                            <p class="card-text">{{ ingrediente[1] }} : {{ ingrediente[0] }} </p>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                {%endif%}
+            {% endfor %}
+        {% endfor %}
+    </section>
+{% endblock %}

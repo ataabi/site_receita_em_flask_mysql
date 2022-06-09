@@ -1,0 +1,29 @@
+
+{% extends "cabecalho.html" %}
+{% block conteudo %}
+<div style="margin:2% 15% 0px 15% ">
+    <div class="media align-self-center" style="display:flex; margin:10px;">
+        {% set img_name=receita['receitas'][id]['nome'] ~ '_' ~ id ~ '.jpg'%}
+
+        <div class="media-body">
+            <h3 class="mt-0" >{{ receita['receitas'][id]['nome'] }}</h3>
+            <ul class="mt-0">
+                {% for ingrediente in receita['ingredientes'][id]  %}
+                    <li class="mt-0">
+                        {{ ingrediente[0] }}
+                        {{ ingrediente[1] }}
+                    </li>
+                {%endfor%}
+            </ul>
+            <p class="mt-0">
+                {{ receita['receitas'][id]['descricao'] }}
+            </p>
+        </div>
+        <img class="img-thumbnail ml-3 float-end border-dark"
+             style="margin-left: 1.5%"
+             src="{{ url_for('imagem', nome_arquivo=img_name) }}"
+             alt="Foto de comido ">
+    </div>
+</div>
+
+{% endblock %}

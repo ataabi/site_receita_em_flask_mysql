@@ -1,0 +1,21 @@
+{% extends "cabecalho.html" %}
+{% block conteudo %}
+
+    <input type="hidden" name="usuario" value="usuario" >
+    <div class="mb-3" style="display:block">
+        <form action="{{ url_for('autenticar') }}" method="POST">
+            <input type="hidden" name="proxima" value="{{ proxima }}">
+            <label>Nome <input class="form" type="text" name="nome_usuario"></label>
+            <label>Senha <input type="password" name="senha_usuario"></label>
+            <input type="submit">
+        </form>
+    </div>
+    <div>
+        <form action="{{ url_for('cadastro') }}">
+            <p>Ainda não é cadastrado ?
+                <button type="submit">Cadastre-se aqui</button>
+            </p>
+        </form>
+    </div>
+
+{% endblock %}

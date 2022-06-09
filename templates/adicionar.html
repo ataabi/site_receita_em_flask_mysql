@@ -1,0 +1,66 @@
+
+{% extends "cabecalho.html" %}
+{% block conteudo %}
+
+    {# adiciona uma linha na lista de ingredientes #}
+    <form  id="add_ing" action="{{ url_for('adicionar_receita') }}" method="POST">
+        <input type="hidden" name="adicionar_ingrediente" value="adicionar">
+    </form>
+
+    {# remove uma linha na lista de ingredientes #}
+    <form  id="rem_ing" action="{{ url_for('adicionar_receita') }}" method="POST">
+        <input type="hidden" name="remover_ingrediente" value="remover">
+    </form>
+
+    <div style="margin:1.5%">
+    <form action="{{ url_for('criar_receita') }}" method="POST" enctype="multipart/form-data">
+
+        <figure class="thumb col-md-4">
+            <img class="img-responsive" id="your-image" name="imagem" src="{{ url_for('imagem', nome_arquivo='no_img.jpg') }}">
+            <figcaption>
+                <label class="fileContainer">
+                    Mudar capa
+                    <input type="file" name="imagem" accept=".jpg" onchange="previewImage(event)">
+                </label>
+            </figcaption>
+        </figure>
+
+        <div>
+            <div class="form-group">
+                <label class="col-sm-2 col-form-label">Nome <input class="form-control" type="text" name="nome"></label>
+            </div>
+            {% for n in range(0, n_ing) %}
+
+                <section>
+                    <label class="col-sm-2 col-form-label">{{n+1}}° Ingrediente
+                        <input class="form-control" type="text" id="ingrediente{{n}}" name="ingrediente{{n}}" placeholder="Ovo">
+                    </label>
+                    <label class="col-sm-2 col-form-label">{{n+1}}° Quantidade
+                        <input class="form-control" type="text" id="quantidade{{n}}" name="quantidade{{n}}" placeholder="1 un">
+                    </label>
+                    <div class="btn-group-vertical" style="height:20px;" role="group" aria-label="First group" >
+                        {% if n <= 0 %}
+                            <input class="form-control"  type="submit" name="+" value="+" form="add_ing">
+                        {% else %}
+                            <input class="form-control"  type="submit" name="-" value="-" form="rem_ing">
+                        {% endif %}
+                    </div>
+                </section>
+            {% endfor %}
+
+            <label for="como_preparar" >Como preparar</label><br>
+            <textarea id="como_preparar" name="descricao" rows='5' cols='80'></textarea>
+            <br>
+        </div>
+        <input type="submit" value="Adicionar">
+    </form>
+    </div>
+    <script>
+			var previewImage = function(event) {
+				var preview = document.getElementById('your-image');
+				preview.src = URL.createObjectURL(event.target.files[0]);
+				preview.style.display = "block";
+			};
+    </script>
+
+{% endblock %}

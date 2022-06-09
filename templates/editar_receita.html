@@ -1,0 +1,91 @@
+{% extends "cabecalho.html" %}
+{% block conteudo %}
+{% set count = [0] %}
+
+    {# adiciona uma linha na lista de ingredientes #}
+    <form  id="add_ing" action="{{ url_for('editar_receita', id=id) }}" method="POST">
+        <input type="hidden" name="id" value="{{ id }}" >
+        <input type="hidden" name="adicionar_ingrediente" value="adicionar">
+    </form>
+
+    {# remove uma linha na lista de ingredientes #}
+    <form  id="rem_ing" action="{{ url_for('editar_receita', id=id) }}" method="POST">
+        <input type="hidden" name="id" value="{{ id }}" >
+        <input type="hidden" name="remover_ingrediente" value="remover">
+    </form>
+
+    <div style="margin:0.5%">
+        <form action="{{ url_for('alterar_receita') }}" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="{{ id }}" >
+
+            {# Criando o nome e Pegando a Imagem  #}
+            {% set name_img=receita['nome'] ~ '_' ~ id ~ '.jpg'%}
+            <figure style="width:250px; heigth: 120px" style="margin:0.5%">
+                <img name="imagem" id="your-image" src="{{ url_for('imagem', nome_arquivo=name_img) }}">
+
+
+                {% if name_img %}
+                    <input type="file" name="imagem" accept=".jpg" onchange="previewImage(event)" src="{{ url_for('imagem', nome_arquivo=nome_img) }}"
+                    value="{{ url_for('imagem', nome_arquivo=name_img) }}">
+                {% else %}
+                    <input type="file" name="imagem" accept=".jpg" onchange="previewImage(event)" src="{{ url_for('imagem', nome_arquivo=nome_img) }}">
+                {% endif %}
+            </figure>
+
+            <fieldset>
+                <label>Nome <input type="text" name="nome" value="{{ receita['nome'] }}"></label>
+
+                <section>
+                    {% for n in range(0, n_ing) %}
+
+                    <div>
+                        {% if ingredientes[n] %}
+                        <label class="col-sm-2 col-form-label">{{count[-1]+1}}° Ingrediente
+                            <input class="form-control" type="text" name="ingrediente{{n}}" value="{{ ingredientes[n][1] }}">
+                        </label>
+                        <label class="col-sm-2 col-form-label">{{count[-1]+1}}° Quantidade
+                            <input class="form-control" type="text" name="quantidade{{n}}" value="{{ ingredientes[n][0]}}">
+                        </label>
+                        {% else %}
+
+                        <label class="col-sm-2 col-form-label">{{count[-1]+1}}° Ingrediente
+                            <input class="form-control" type="text" name="ingrediente{{n}}" value="{{ ingredientes[-1][1] }}">
+                        </label>
+                        <label class="col-sm-2 col-form-label">{{count[-1]+1}}° Quantidade
+                            <input class="form-control" type="text" name="quantidade{{n}}" value="{{ ingredientes[-1][0]}}">
+                        </label>
+                        {%endif%}
+
+                        <div class="btn-group-vertical" style="height:20px;" role="group" aria-label="First group" >
+                        {% if n <= 0 %}
+                            <input class="form-control"  type="submit" name="+" value="+" form="add_ing">
+                        {% else %}
+                            <input class="form-control"  type="submit" name="-" value="-" form="rem_ing">
+                        {% endif %}
+                        </div>
+                    </div>
+                    {% if count.append(count.pop()+1) %}{%endif%}
+
+
+                    <br/>
+                    {% endfor %}
+                </section>
+
+                <br>
+                <label>Como preparar<br>
+                    <textarea name="descricao" rows='5' cols='80'>{{ receita['descricao'] }}</textarea>
+                </label>
+                <br>
+                <input type="submit" >
+            </fieldset>
+        </form>
+    </div>
+    <script>
+			var previewImage = function(event) {
+				var preview = document.getElementById('your-image');
+				preview.src = URL.createObjectURL(event.target.files[0]);
+				preview.style.display = "block";
+			};
+    </script>
+
+{% endblock %}

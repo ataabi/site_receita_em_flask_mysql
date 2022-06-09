@@ -1,0 +1,64 @@
+
+body {
+    background: linear-gradient(orange, darkgray);
+}
+
+header {
+}
+
+.navbar {
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    min-width: 420px;
+    min-height: 90px;
+    padding: 1%;
+    display: flex;
+}
+
+
+.mx-auto {
+    margin-right:  200px;
+    display: inline-block;
+
+}
+
+.form-inline {
+    position: absolute;
+    top: 5px;
+    right: 0px;
+}
+
+.conteudo {
+    top:90px;
+    margin: 10px;
+}
+
+
+
+h2 {
+    margin-left: 1.2%;
+}
+.card-deck {
+    padding: 2%;
+}
+
+.card {
+    width: calc(var(conteudo)+23%);
+    margin-left: calc(var(conteudo)+1.5%);
+}
+
+
+.card-body {
+    background-color: lightgray;
+}
+
+li { 
+    padding: 2px;
+}
+
+.text-muted {
+    margin-left: 1%
+}

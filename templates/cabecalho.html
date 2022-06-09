@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Abacatit</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div  id='hideMe' class="alert alert-warning" role="alert">
+                    <ul class=flashes>
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endwith %}
+        <div>
+            <nav class="navbar navbar-expand-lg navbar-light bg-dark"
+                 style="position:static ">
+                <div class="navbar-collapse" id="navbarTogglerDemo01">
+                    <ul class="breadcrumb">
+                        <li >
+                            <a class="btn btn-outline-warning" href="{{ url_for('index') }}" >Início</a>
+                        </li>
+
+                        <li>
+                            <a class="btn btn-outline-warning" href="{{ url_for('adicionar_receita') }}" >Adicionar Receitas</a>
+                        </li>
+
+                        {% if not 'nome_usuario' in session or session['nome_usuario'] == False %}
+                            <li>
+                                <a class="btn btn-outline-warning" href="{{ url_for('login') }}" >login</a>
+                            </li>
+                        {%else%}
+                            <li>
+                                <a class="btn btn-outline-warning" href="{{ url_for('logout') }}" >logout</a>
+                            </li>
+                        {%endif%}
+                    </ul>
+
+                    <h1 class="mx-auto text-warning" style="position:static">
+                            Abacatito
+                    </h1>
+
+                    <form class="form-inline my-2 my-lg-0" action="{{ url_for('buscador') }}" method="post" >
+                        <input class="form-control mr-sm-2" type="search" name="buscar" placeholder="Pesquisar" aria-label="  Search">
+                        <button class="btn btn-outline-warning" type="submit">Pesquisar</button>
+                        <a class="btn btn-outline-warning" href="{{ url_for('buscador') }}">Pesquisa Avânçada</a>
+                    </form>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="conteudo">
+
+        {% block conteudo %}{% endblock %}
+
+    </div>
+
+</body>
+</html>

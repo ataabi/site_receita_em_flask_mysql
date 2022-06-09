@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Adinimistração</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.css') }}">
+</head>
+<body class="container bg-light">
+    <h1>Página de Adiministração</h1>
+
+    <!--Receitas-->
+    <section>
+        <h3>Receitas</h3>
+        <table class="table table-bordered text-center">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">NOME</th>
+                    <th scope="col">AçÔES</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for receita in receitas %}
+                    {% for id in receita['receitas'] %}
+                        <tr>
+                            <th scope="row">{{ id }}</th>
+                            <th class="text-start">{{ receita['receitas'][id]['nome'] }}</th>
+                            <th>
+                                <a href="{{ url_for('editar_receita' , id=id) }}">Editar </a>
+                                <a href="{{ url_for('deletar' , id=id) }}"> Deletar</a>
+                            </th>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="btn border-dark">
+            <small>Adicionar Receita</small>
+        </div>
+
+    </section>
+    <!--Usuarios-->
+    <section>
+        <h3>Usuarios</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Apelido</th>
+                    <th scope="col">NOME</th>
+                    <th scope="col">AçÔES</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for usuario in usuarios %}
+                    <tr>
+                        <th>{{ usuario.apelido }}</th>
+                        <th>{{ usuario.nome }}</th>
+                        <th>
+                            <a href="{{ url_for('edi_usuario' , id=id) }}">Editar </a>
+                            <a href="{{ url_for('rem_usuario' , id=id) }}"> Deletar</a>
+                        </th>
+                    </tr>
+                {% endfor %}
+            </tbody>
+         </table>
+    </section>
+    <!--Log-->
+    <section>
+        <h3>Log</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">APELIDO</th>
+                    <th scope="col">TIPO</th>
+                    <th scope="col">DATA-REGISTRO</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in logs %}
+                    <tr>
+                        <th>{{ log.id }}</th>
+                        <th>{{ log.apelido }}</th>
+                        <th>{{ log.tipo }}</th>
+                        <th>{{ log.data }}</th>
+                    </tr>
+                {% endfor %}
+            </tbody>
+         </table>
+    </section>
+
+</body>
+</html>
